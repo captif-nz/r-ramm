@@ -1,0 +1,10 @@
+Package: raltra
+Title: raltra
+Version: 0.0.0.9000
+Authors@R: person("John", "Bull", email = "john@altissimo.nz", role = c("aut", "cre"))
+Description: Road asset database interface and tools.
+Depends: R (>= 3.5.2)
+License: MIT permissive
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1.9000
