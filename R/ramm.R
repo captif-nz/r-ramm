@@ -1,10 +1,3 @@
-
-library(httr)
-library(urltools)
-library(kv)
-library(xml2)
-library(jsonlite)
-
 #' Ramm class
 #'
 #' @description Class for interacting with the RAMM API. Avaliable methods
@@ -47,16 +40,16 @@ Ramm$methods(
   set_auth_key = function (params) {
     uu <- paste(url, "/authenticate/login?", sep = "")
 
-    response <- POST(
+    response <- httr::POST(
       append_params(uu, params),
-      add_headers(.headers = sapply(http_header, paste0))
+      httr::add_headers(.headers = sapply(http_header, paste0))
       )
 
     if (response$status_code == 200) {
       auth_key <- gsub(
         "[\"]",
         "",
-        content(response, "text", encoding = "ISO-8859-1")
+        httr::content(response, "text", encoding = "ISO-8859-1")
       )
 
       http_header$Authorization <<- paste("Bearer", auth_key)
@@ -64,7 +57,7 @@ Ramm$methods(
       print("Successfully logged in.")
 
     } else {
-      print(content(response, "text", encoding = "ISO-8859-1"))
+      print(httr::content(response, "text", encoding = "ISO-8859-1"))
       stop("Login failed, try again.")
     }
   }
@@ -94,14 +87,14 @@ NULL
 Ramm$methods(
   request = function (cmd, method="GET", body=NULL) {
     if (method == "GET") {
-      response <- GET(
+      response <- httr::GET(
         paste(url, cmd, sep=""),
-        add_headers(.headers = sapply(http_header, paste0))
+        httr::add_headers(.headers = sapply(http_header, paste0))
       )
     } else if (method == "POST") {
-      response <- POST(
+      response <- httr::POST(
         paste(url, cmd, sep=""),
-        add_headers(.headers = sapply(http_header, paste0)),
+        httr::add_headers(.headers = sapply(http_header, paste0)),
         body = body
       )
     } else {
@@ -120,7 +113,7 @@ Ramm$methods(
     response <- request("//data/tables?tableTypes=255")
 
     tables <- c()
-    for (val in content(response, as="parsed")) {
+    for (val in httr::content(response, as="parsed")) {
       tables <- c(tables, val$tableName)
     }
     tables
@@ -134,7 +127,7 @@ Ramm$methods(
 NULL
 Ramm$methods(
   get_table_schema = function (table_name) {
-    content(
+    httr::content(
       request(paste("//schema/", table_name, "?loadType=3", sep="")),
       as="parsed"
     )
@@ -185,7 +178,7 @@ Ramm$methods(
     request(
       "//data/table",
       method = "POST",
-      body = toJSON(request_body, auto_unbox=TRUE)
+      body = jsonlite::toJSON(request_body, auto_unbox=TRUE)
       )
   }
 )
@@ -219,13 +212,13 @@ Ramm$methods(
         get_geometry=get_geometry)
     }
 
-    n_rows <- content(query(table_name, filters=filters), as="parsed")$total
+    n_rows <- httr::content(query(table_name, filters=filters), as="parsed")$total
     if (n_rows > 0) {
       n_chunks <- as.integer(ceiling(n_rows/chunk_size))
       print(paste("retrieving", n_rows, "rows from", table_name))
 
       for (ii in seq(1, n_chunks)) {
-        response_content <- content(
+        response_content <- httr::content(
           ramm$query(
             "roadnames",
             filters=filters,
@@ -316,8 +309,8 @@ check_filters = function(filters) {
 }
 
 append_params = function (url, params) {
-  for (. in kv(params)) {
-      url <- param_set(url, key = URLencode(.$k), value = URLencode(.$v))
+  for (. in kv::kv(params)) {
+      url <- urltools::param_set(url, key = URLencode(.$k), value = URLencode(.$v))
     }
   url
 }
