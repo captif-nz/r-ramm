@@ -5,6 +5,8 @@ R wrapper for the RAMM API (https://api.ramm.com/v1/).
 ## Dependencies
 * devtools
 * urltools
+* tictoc
+* data.table
 * kv - install using `devtools::install_github('decisionpatterns/kv')`
 
 ## Installation

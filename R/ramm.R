@@ -217,8 +217,8 @@ Ramm$methods(
       n_chunks <- as.integer(ceiling(n_rows/chunk_size))
       print(paste("retrieving", n_rows, "rows from", table_name))
 
-      data_list = list()
       for (ii in seq(1, n_chunks)) {
+        tictoc::tic()
         print(paste('retrieving chunk', ii, 'of', n_chunks))
         response_content <- httr::content(
           ramm$query(
@@ -229,13 +229,21 @@ Ramm$methods(
           as="parsed"
         )
 
+        data_list <- list()
         for (row in response_content$rows) {
-          data_list <- rbind(data_list, row$values)
+            data_list <- rbind(data_list, row$values)
         }
+        dl <- as.data.frame(data_list, stringsAsFactors=FALSE)
+        colnames(dl) <- df_columns
 
-        df <- as.data.frame(data_list, stringsAsFactors=FALSE)
-        colnames(df) <- df_columns
+        if (ii == 1) {
+          df <- dl
+        } else {
+          df <- data.table::rbindlist(list(df, dl))
+        }
+        tictoc::toc()
       }
+
       df
     } else {
       print(filter)
