@@ -218,7 +218,6 @@ Ramm$methods(
       print(paste("retrieving", n_rows, "rows from", table_name))
 
       for (ii in seq(1, n_chunks)) {
-        tictoc::tic()
         print(paste('retrieving chunk', ii, 'of', n_chunks))
         response_content <- httr::content(
           ramm$query(
@@ -241,7 +240,6 @@ Ramm$methods(
         } else {
           df <- data.table::rbindlist(list(df, dl))
         }
-        tictoc::toc()
       }
 
       df
