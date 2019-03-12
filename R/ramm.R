@@ -220,7 +220,7 @@ Ramm$methods(
       for (ii in seq(1, n_chunks)) {
         response_content <- httr::content(
           ramm$query(
-            "roadnames",
+            table_name,
             filters=filters,
             skip=(ii - 1)*chunk_size,
             take=chunk_size),
