@@ -217,6 +217,7 @@ Ramm$methods(
       n_chunks <- as.integer(ceiling(n_rows/chunk_size))
       print(paste("retrieving", n_rows, "rows from", table_name))
 
+      data_list = list()
       for (ii in seq(1, n_chunks)) {
         print(paste('retrieving chunk', ii, 'of', n_chunks))
         response_content <- httr::content(
@@ -228,7 +229,6 @@ Ramm$methods(
           as="parsed"
         )
 
-        data_list = list()
         for (row in response_content$rows) {
           data_list <- rbind(data_list, row$values)
         }
