@@ -43,6 +43,8 @@ Valid operators include:
 
 `roadnames <- ramm$get_data('roadnames', filters=list(list(columnName='road_region', operator='In', value='1,2')))`
 
+`hsd_rutting <- ramm$get_data('hsd_rutting', filters=list(list(columnName='road_id', operator='EqualTo', value=615),list(columnName='latest', operator='EqualTo', value='L')))`
+
 ## Issues
 Please submit an issue if you come across a bug.
 
