@@ -163,7 +163,7 @@ Ramm$methods(
     filters=list(),
     skip=0,
     take=1,
-    columns=c(),
+    columns=list(),
     get_geometry=FALSE) {
 
     request_body <- build_request_body(
@@ -224,7 +224,8 @@ Ramm$methods(
             table_name,
             filters=filters,
             skip=(ii - 1)*chunk_size,
-            take=chunk_size),
+            take=chunk_size,
+            columns=column_names),
           as="parsed"
         )
 
@@ -255,7 +256,7 @@ build_request_body = function(
   table_name="roadnames",
   skip=0,
   take=1,
-  columns=c(),
+  columns=list(),
   get_geometry=FALSE,
   expand_lookups=FALSE) {
     if (check_filters(filters)) {
