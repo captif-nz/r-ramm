@@ -1,4 +1,4 @@
-# raltra
+# r-ramm
 
 R wrapper for the RAMM API (https://api.ramm.com/v1/).
 
@@ -10,7 +10,7 @@ R wrapper for the RAMM API (https://api.ramm.com/v1/).
 
 ## Installation
 * Install above dependencies
-* Run `devtools::install_github('johnbullnz/raltra')`
+* Run `devtools::install_github('nzta-captif/r-ramm')`
 
 ## Usage
 Create Ramm object: `ramm <- raltra::Ramm()`
