@@ -13,7 +13,7 @@ R wrapper for the RAMM API (https://api.ramm.com/v1/).
 * Run `devtools::install_github('captif-nz/r-ramm')`
 
 ## Usage
-Create Ramm object: `ramm <- raltra::Ramm()`
+Create Ramm object: `ramm <- ramm::Ramm()`
 ### Login
 `ramm$login('username', 'password')`
 
