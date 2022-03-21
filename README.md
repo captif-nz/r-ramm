@@ -2,6 +2,8 @@
 
 R wrapper for the RAMM API (https://api.ramm.com/v1/).
 
+For a Python version with improved API and functionality see [pyramm](https://github.com/captif-nz/pyramm).
+
 ## Dependencies
 * devtools
 * urltools
